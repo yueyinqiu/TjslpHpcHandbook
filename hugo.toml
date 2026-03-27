@@ -1,0 +1,8 @@
+baseURL = "/"
+locale = "zh-cn"
+title = "Tjslp 超算手册"
+theme = "hugo-book"
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
