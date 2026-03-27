@@ -1,129 +1,122 @@
 ---
-weight: 2000
+weight: 1000
 title: "创建隔离空间"
 ---
 
 # 创建隔离空间
 
 > [!NOTE]
-> 一个人用一个用户是一个 Linux 一个基本的一个设计。然而学校只让老师开用户，好多配置都混在一起，这咋办啊？要不把家目录改了吧！
+> 一个人用一个用户是一个 Linux 一个基本的一个设计。然而学校只让老师开用户，好多配置都混在一起，太混乱啦！
+
+要不……咱把家目录改了吧？
 
 > [!CAUTION]
-> 本篇只能帮助你创建一个相对隔离的空间。主要目的是：
+> 隔离空间只能帮助创建一个相对隔离的空间。主要目的是：
 > 1. 防止自己在不知情的情况下，用了其他人的配置；
 > 2. 可以自己大胆进行一些配置，而不用担心影响其他人。
 > 
-> 由于实际还是同一个用户，无法防止你的文件被访问和篡改。
+> 由于实际还是同一个用户，无法防止文件被访问和篡改。
 
-## 第一步 确认你正在使用密钥登录
-
-为了在登录时区分你的身份，必须使用密钥登录，而不能使用密码登录。
-
-[《连接超算平台》](./../connect-to-hpc/)从零开始详细介绍了如何使用密钥登录超算平台。
-
-## 第二步 创建你的隔离家目录
-
-在超算平台上创建你的专属目录：
-
-```sh
-mkdir "@fake-home@"
-```
-
-> [!IMPORTANT]
-> 你未必想在 `@fake-home@` 创建目录。在页面顶部可以修改显示的路径。
-> 
-> 特别注意它和超算用户名 `@hpc-user` 是否匹配。
-> 
-> 另外建议不要在其中包含 `~` 等环境变量，因为这些环境变量将被修改，有可能会在未来导致问题。
+## 第一步 生成一个 SSH 密钥
 
 > [!TIP]
-> 这个命令当然是在超算平台执行的，先 `ssh @ssh-host@` 连接到超算平台。
+> 如果您已经拥有 SSH 密钥，可以跳过此步。
 
-## 第三步 准备 SSH 登录时的脚本
-
-在超算平台，使用 `nano "@fake-home@/ssh-command.sh"` 创建一个脚本文件，写入：
+为了实现隔离空间，必须使用密钥登录（否则不可能区分登录者的身份）。在本地设备上，使用下述命令即可生成密钥：
 
 ```sh
-#!/bin/bash
-
-NEW_HOME="@fake-home@"
-NEW_ENV="HOME=$NEW_HOME TERM=$TERM"
-
-cd $NEW_HOME
-
-if [ -z "$SSH_ORIGINAL_COMMAND" ]; then
-    exec env -i $NEW_ENV /bin/bash --login
-else
-    exec env -i $NEW_ENV /bin/bash --login -c "$SSH_ORIGINAL_COMMAND"
-fi
+ssh-keygen
 ```
-
-> [!WARNING]
-> 请尽量理解这段脚本做了什么，以便后续定制：它启动了一个新的 `/bin/bash` 替换当前的终端。其中环境变量 `HOME` 被修改到指定路径，并原样保留了 `TERM` ，其余环境变量都被抛弃。当然，启动时使用了 `--login` ，这会重新运行各 `profile` 脚本以添加部分必要的环境变量。
-
-> [!NOTE]
-> 什么叫不会用 `nano` ？
-> 1. 刚进去就是写东西的地方，就直接把上面这段粘贴进去。
-> 2. 粘贴好之后，按 `Ctrl + X` 。
-> 3. 这时候它会问 `Save modified buffer?` 。按 `Y` 。
-> 4. 这时候会问 `File Name to Write:` 。但它应该预先帮你填好了，按回车就行。
-
-写完后别忘记给它加上执行权限：
-
-```sh
-chmod +x "@fake-home@/ssh-command.sh"
-```
-
-## 第四步 让这个脚本在登录时执行
-
-现在 `nano ~/.ssh/authorized_keys` 打开之前配置密钥时所写的文件。
 
 > [!TIP]
-> 这里的 `~` 是指原本的用户目录而不是新的隔离目录。如果你迫不及待地执行了前面的脚本导致 `~` 指向的位置发生变化，建议先退出来重新连接超算平台。
+> 如果不明白自己在做什么，不停地按回车就对了（如果它提示文件已存在，说明以前曾生成过密钥，那可以直接跳过此步）。
 
-然后找到你的密钥，在前面添加一个 `command="@fake-home@/ssh-command.sh"` 。例如，如果你本来的密钥是：
+在生成过程中，它会提示密钥文件的存放位置。其中一个文件以 `.pub` 为后缀名，它的内容应该类似这样：
 
 ```text
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBwLLOJbq3byqJ8/KREL+93wzIUjpXQ75SUTTXRdE4BH yueyi@DESKTOP-VE9QGI5
 ```
 
-把它改成：
+请记住这个文件在哪里，或者复制一份，我们后面需要用到这段内容。
+
+> [!CAUTION]
+> 另外一个没有后缀的文件是私钥。请保管好它，不要泄露。
+
+## 第二步 连接超算平台
+
+在校园网内，使用下述指令即可连接超算平台：
+
+```sh
+ssh u13070@logini.tongji.edu.cn -p 10022
+```
+
+## 第三步 创建隔离环境
+
+在超算平台上执行：
+
+```sh
+~/register_space.cs
+```
+
+> [!CAUTION]
+> 该脚本内部访问 `HOME` 环境变量构建路径，因此请确保目前没有位于隔离环境中（ `echo ~` 的输出是 `/share/home/u13070` ）。
+
+它会依次问以下几个问题：
+1. 您想使用的隔离空间名称：相当于给自己取一个用户名（只能是字母、数字、下划线、减号，首个字符只能是字母，不少于四个字符）；
+2. 请输入一项联系方式，以便遇到问题及时联系：尽量给一个能及时联系上的联系方式，没有输入格式限制；
+3. 请输入您的 SSH 公钥：在第一步中 `.pub` 文件的内容。
+
+正常情况下，完整交互过程类似：
 
 ```text
-command="@fake-home@/ssh-command.sh" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBwLLOJbq3byqJ8/KREL+93wzIUjpXQ75SUTTXRdE4BH yueyi@DESKTOP-VE9QGI5
+[u13070@logini02 ~]$ ~/register_space.cs
+此脚本可辅助完成隔离空间的创建。如果您不清楚这是什么，可参考 https://tjslp-hpc.yueyinqiu.top/ 的使用说明。
+您想使用的隔离空间名称：yueyinqiu
+好的，隔离空间将会被创建在 /share/home/u13070/data/yueyinqiu
+对应的全闪目录为 /ssdfs/datahome/u13070/yueyinqiu
+
+请输入一项联系方式，以便遇到问题及时联系：yueyinqiu@outlook.com
+好的，联系方式将记录为 yueyinqiu@outlook.com
+
+请输入您的 SSH 公钥ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBwLLOJbq3byqJ8/KREL+93wzIUjpXQ75SUTTXRdE4BH yueyi@DESKTOP-VE9QGI5
+好的，该公钥的指纹为 SHA256:dS40JD4zcty/XQWVo1Z/TRAU52QW2ok738JxbcBdZWI
+
+正在创建隔离空间目录结构……
+正在写入公钥……
+已完成。
+您现在可尝试使用该公钥进行登录，以进入隔离空间。
 ```
 
-## 第五步 尝试一下是否成功
+> [!CAUTION]
+> 这会在隔离空间中创建一个 `.ssh-command` 文件。除非明确知道自己在做什么，否则请不要修改它。至少不要删除它。
 
-现在重新连接超算平台：
+## 第四步 尝试一下是否成功
+
+现在重新连接超算平台，尝试一下有没有成功进入隔离环境。
+
+## 第五步 切换到其他设备或使用其他 SSH 密钥
+
+切换到其他设备时一般建议先按[第一步](#第一步-生成一个-ssh-密钥)重新生成一个密钥。
+
+随后，登录到超算平台执行：
 
 ```sh
-ssh @ssh-host@
+~/register_space.cs
 ```
 
-然后尝试：
+> [!CAUTION]
+> 该脚本内部访问 `HOME` 环境变量构建路径，因此请确保目前没有位于隔离环境中（ `echo ~` 的输出是 `/share/home/u13070` ）。
 
-```sh
-echo $HOME
-```
+此时输入你隔离空间的名称。它会发现隔离空间已存在，并询问是否要添加 SSH 密钥，按上述流程继续即可。
 
-如果你的输出变成了 `@fake-home@` 。恭喜你，成功了！
+## 实现细节
 
-> [!TIP]
-> 如果直接登不上了，不要着急，你仍然可以使用密码登录（例如，使用 `ssh @hpc-user@@@logini.tongji.edu.cn -p 10022 -o PubkeyAuthentication=no` ）。可以登录上去检查上述脚本或者 `authorized_keys` 文件，看看是不是哪里写错了。
+### 原理
 
-## 第六步 把 `.bashrc` 什么的创建起来
+见 [https://www.cnblogs.com/yueyinqiu/p/19631295](https://www.cnblogs.com/yueyinqiu/p/19631295) 。脚本可[点此](./register_space.cs)下载。
 
-直接从 `/etc/skel/` 下面拷就行：
+### 可能遇到的问题
 
-```sh
-cp -r /etc/skel/. "@fake-home@"
-```
+上述脚本需要 `dotnet` 执行，并需要安装 `YueYinqiu.Su.DotnetRunFileUtilities` 包。在本篇撰写时，这些网站是不能在超算平台访问的。为此，我们有部署一个代理服务，并配置在 `/share/home/u13070/.bashrc` 中。
 
-另外你可能会看到类似 `Saving key "@fake-home@/.ssh/id_rsa" failed: No such file or directory` 之类的提示。那就给它创建个文件夹吧：
-
-```sh
-mkdir "@fake-home@/.ssh"
-```
-
-好了，现在重新登录。应该一切正常，干干净净！
+如果代理服务正常运行，那么理论上不会出现问题。如果出现异常，并且包缓存被删除，那么包还原可能失败，导致脚本无法执行。可参考[《连接到互联网》](./../connect-to-the-internet/)进行代理配置（尽管该篇是针对隔离环境撰写的，但实际区别不大）。
