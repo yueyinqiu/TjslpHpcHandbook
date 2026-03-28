@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using CliWrap;
 
-Console.WriteLine("此脚本可辅助完成隔离空间的创建。如果您不清楚这是什么，可参考 https://tjslp-hpc.yueyinqiu.top/ 的使用说明。");
+Console.WriteLine("此脚本可辅助完成隔离空间的创建。如果您不清楚这是什么，可参考 https://tjslp-hpc.yueyinqiu.top/docs/quick-start/create-isolation-space/ 的使用说明。");
 
 Console.Write("您想使用的隔离空间名称：");
 var name = Console.ReadLine() ?? "";
@@ -97,7 +97,7 @@ else
         """);
 
     Debug.Assert(RuntimeInformation.IsOSPlatform(OSPlatform.Linux));
-    File.SetUnixFileMode(sshCommand, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
+    File.SetUnixFileMode(sshCommand, UnixFileMode.UserRead | UnixFileMode.UserExecute);
 
     await File.WriteAllTextAsync(Path.Join(space, ".bash_logout"), 
         """
@@ -142,13 +142,17 @@ else
     var spaceSsh = Path.Join(space, ".ssh");
     Directory.CreateDirectory(spaceSsh);
 
-    var spaceSshAuthorized_keys = Path.Join(spaceSsh, "authorized_keys");
-    await File.WriteAllTextAsync(Path.Join(spaceSshAuthorized_keys), 
+    await File.WriteAllTextAsync(Path.Join(spaceSsh, "authorized_keys"), 
         $"""
-        # 请注意，本文件位于隔离空间中，它不会在登录时起到任何作用。
+        # 请注意，本文件位于隔离空间中，不会在登录时起到作用。
         # 若要配置 authorized_keys ，应该使用 {authorizedKeys}
         """);
-    File.SetUnixFileMode(spaceSshAuthorized_keys, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+
+    await File.WriteAllTextAsync(Path.Join(spaceSsh, "config"), 
+        $"""
+        # 请注意，本配置默认不会被使用。
+        # 详见 https://tjslp-hpc.yueyinqiu.top/docs/quick-start/create-isolation-space/#SSH
+        """);
 
     Directory.CreateDirectory(ssdfs);
     File.CreateSymbolicLink(Path.Join(space, "ssdfs"), ssdfs);
