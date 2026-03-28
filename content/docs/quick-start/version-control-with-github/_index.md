@@ -102,3 +102,36 @@ git clone git@github.com:yueyinqiu/TjslpHpcHandbook.git
 应当可以成功把仓库克隆到本地。
 
 ## 第五步 配置用户名和邮箱
+
+> [!CAUTION]
+> 请确保已参考[《创建隔离空间》](./../create-isolation-space/)完成隔离空间的创建。用户名和邮箱当然仅应该为自己配置。
+
+在 git 中创建 commit 时，需要给定用户名和邮箱。可以使用以下指令进行全局配置：
+
+```sh
+git config --global user.name "<用户名>"
+git config --global user.email "<邮箱>"
+```
+
+## 第六步 尝试提交修改
+
+现在可以对刚刚克隆的仓库做一些修改。
+
+然后使用：
+
+```sh
+git add .
+git commit -m "modified blahblah"
+git push
+```
+
+> [!TIP]
+> 当然，这里不一定要用命令行，例如可以用 Visual Studio Code 。
+
+## 第七步 更进一步
+
+由于 git 的功能实在太过复杂，目前没有办法进行全面的整理。可以浏览以下文档以更好使用 git 和 GitHub ：
+- [git 官方文档](https://git-scm.com/docs)
+- [Visual Studio Code 文档](https://code.visualstudio.com/docs/sourcecontrol/overview)
+- [git 官方文档（中文）](https://git-scm.cn/docs)
+- [同济超算平台文档](https://dev.tongji.edu.cn/hpc-doc/#/pages/basicKnowledge/git)
