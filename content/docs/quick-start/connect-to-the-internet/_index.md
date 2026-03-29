@@ -18,6 +18,7 @@ title: "连接到互联网"
 在 `~/.bashrc` 中添加以下内容即可（当然，需要启动一个新的 `bash` 才起效果）：
 
 ```sh
+# ===== proxy =====
 export http_proxy="http://user:password@logini01:35263/"
 export https_proxy="http://user:password@logini01:35263/"
 export HTTP_PROXY="http://user:password@logini01:35263/"
@@ -25,6 +26,7 @@ export HTTPS_PROXY="http://user:password@logini01:35263/"
 
 export no_proxy="localhost,127.0.0.1"
 export NO_PROXY="localhost,127.0.0.1"
+# ===== proxy =====
 ```
 
 > [!TIP]
@@ -80,7 +82,7 @@ ssh -t -R 20132:127.0.0.1:7890 u13070@192.168.212.236 -p 10022 "/share/home/u130
 > 超算平台没有安装 `socat` ，这里用的是自己安装的 `/share/home/u13070/socat` 。如果丢失，可以在 [static-binaries 仓库](https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat)直接下载可执行文件。
 
 > [!TIP]
-> 为了保持服务长期稳定运行，可能还需要添加 `ServerAliveInterval` 等配置，以及自动重连机制等。
+> 为了保持服务长期稳定运行，可能还需要添加其他配置，以及自动重连机制等。目前暂时还没有找到完全长期稳定的办法，毕竟 SSH 本身也没那么稳定。
 
 ### 第四步 完成
 
