@@ -151,7 +151,7 @@ else
     await File.WriteAllTextAsync(Path.Join(spaceSsh, "config"), 
         $"""
         # 请注意，本配置默认不会被使用。
-        # 详见 https://tjslp-hpc.yueyinqiu.top/docs/quick-start/create-isolation-space/#SSH
+        # 详见 https://tjslp-hpc.yueyinqiu.top/docs/quick-start/create-isolation-space/#ssh-%e4%b8%8d%e5%85%bc%e5%ae%b9
         """);
 
     Directory.CreateDirectory(ssdfs);
