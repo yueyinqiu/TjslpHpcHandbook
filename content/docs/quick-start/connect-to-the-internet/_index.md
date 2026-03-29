@@ -73,8 +73,14 @@ mihomo -f config.yaml
 在该常开设备上保持执行：
 
 ```sh
-ssh -t -R 20132:127.0.0.1:7890 u13070@192.168.212.236 -p 10022 "ncat -lk 52629 -c 'ncat 127.0.0.1 20132'"
+ssh -t -R 20132:127.0.0.1:7890 u13070@192.168.212.236 -p 10022 "/share/home/u13070/socat TCP-LISTEN:52629,reuseaddr,fork TCP:127.0.0.1:20132"
 ```
+
+> [!TIP]
+> 超算平台没有安装 `socat` ，这里用的是自己安装的 `/share/home/u13070/socat` 。如果丢失，可以在 [static-binaries 仓库](https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat)直接下载可执行文件。
+
+> [!TIP]
+> 为了保持服务长期稳定运行，可能还需要添加 `ServerAliveInterval` 等配置，以及自动重连机制等。
 
 ### 第四步 完成
 

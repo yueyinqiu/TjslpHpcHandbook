@@ -1,5 +1,5 @@
 ---
-weight: 3000
+weight: 4000
 title: "基于 GitHub 的版本管理"
 ---
 
