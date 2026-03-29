@@ -5,7 +5,7 @@ title: "基于 Homebrew 的包管理"
 
 # 基于 Homebrew 的包管理
 
-大多数包管理器都需要 root 权限，在超算平台上无法使用。虽然官方明确不受支持，但 Homebrew 确实能够在完全无 root 的情况下使用。因此，如有需要，建议使用 Homebrew 作为包管理器。
+大多数包管理器都需要 root 权限，在超算平台上无法使用。虽然官方明确不给予支持，但 Homebrew 确实能够在完全无 root 的情况下使用。同时，作为 macOS 最流行的包管理器， Homebrew 的生态足够丰富。因此，如有需要，建议使用 Homebrew 作为包管理器。
 
 ## 第一步 下载 Homebrew
 
@@ -32,9 +32,9 @@ export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bot
 ```
 
 > [!TIP]
-> 如果不想使用镜像源，那就不需要设置下方四个环境变量。
+> 如果不想使用镜像源，就不需要设置下方四个环境变量。
 
-完成后启动新的 `bash` 让配置生效。
+完成后，启动新的 `bash` 让配置生效。
 
 ## 第三步 更新 Homebrew
 
@@ -60,6 +60,6 @@ hugo help
 
 ## 第六步 更进一步
 
-无 root 使用是明确不受 Homebrew 官方支持的：很多包可能不得不从源码编译，而由于环境的复杂性，未必总能成功；同时， Homebrew 也不保证接口的稳定，因此镜像源未必稳定。如果遇到问题，可以进一步查阅：
+无 root 使用是明确不受 Homebrew 官方支持的：很多包可能不得不从源码编译，而由于环境的复杂性，未必总能成功；同时， Homebrew 也不保证网络接口的稳定，因此镜像源未必稳定。如果遇到问题，可以进一步查阅：
 - [Homebrew 官方文档](https://docs.brew.sh/)
-- [清华源镜像文档](https://mirrors.tuna.tsinghua.edu.cn/help/homebrew/)
+- [清华源 Homebrew 镜像文档](https://mirrors.tuna.tsinghua.edu.cn/help/homebrew/)
