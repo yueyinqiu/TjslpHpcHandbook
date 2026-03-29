@@ -85,7 +85,7 @@ else
         #!/bin/bash
 
         NEW_HOME="{space}"
-        NEW_ENV="HOME=$NEW_HOME TERM=$TERM"
+        NEW_ENV="HOME=$NEW_HOME TERM=$TERM SSH_AUTH_SOCK=$SSH_AUTH_SOCK"
 
         cd $NEW_HOME
 
