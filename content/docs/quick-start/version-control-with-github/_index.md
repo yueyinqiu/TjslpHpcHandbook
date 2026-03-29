@@ -130,7 +130,7 @@ git push
 
 ## 第七步 更进一步
 
-由于 git 的功能实在太过复杂，目前没有办法进行全面的整理。可以浏览以下文档以更好使用 git 和 GitHub ：
+git 功能复杂，没有办法进行全面整理。可浏览以下文档以更好使用 git 和 GitHub ：
 - [git 官方文档](https://git-scm.com/docs)
 - [Visual Studio Code 文档](https://code.visualstudio.com/docs/sourcecontrol/overview)
 - [git 官方文档（中文）](https://git-scm.cn/docs)
