@@ -12,12 +12,13 @@ title: "连接到互联网"
 
 ## 使用服务
 
-> [!WARNING]
+> [!CAUTION]
 > 请确保已参考[《创建隔离空间》](./../create-isolation-space/)完成隔离空间的创建。自己的配置不应该影响其他人。下述 `~` 指的是隔离空间目录。
 
 在 `~/.bashrc` 中添加以下内容即可（当然，需要启动一个新的 `bash` 才起效果）：
 
 ```sh
+# ===== proxy =====
 export http_proxy="http://user:password@logini01:35263/"
 export https_proxy="http://user:password@logini01:35263/"
 export HTTP_PROXY="http://user:password@logini01:35263/"
@@ -25,6 +26,7 @@ export HTTPS_PROXY="http://user:password@logini01:35263/"
 
 export no_proxy="localhost,127.0.0.1"
 export NO_PROXY="localhost,127.0.0.1"
+# ===== proxy =====
 ```
 
 > [!TIP]
@@ -73,8 +75,14 @@ mihomo -f config.yaml
 在该常开设备上保持执行：
 
 ```sh
-ssh -t -R 20132:127.0.0.1:7890 u13070@192.168.212.236 -p 10022 "ncat -lk 52629 -c 'ncat 127.0.0.1 20132'"
+ssh -t -R 20132:127.0.0.1:7890 u13070@192.168.212.236 -p 10022 "/share/home/u13070/socat TCP-LISTEN:52629,reuseaddr,fork TCP:127.0.0.1:20132"
 ```
+
+> [!TIP]
+> 超算平台没有安装 `socat` ，这里用的是自己安装的 `/share/home/u13070/socat` 。如果丢失，可以在 [static-binaries 仓库](https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat)直接下载可执行文件。
+
+> [!TIP]
+> 为了保持服务长期稳定运行，可能还需要添加其他配置，以及自动重连机制等。目前暂时还没有找到完全长期稳定的办法，毕竟 SSH 本身也没那么稳定。
 
 ### 第四步 完成
 
