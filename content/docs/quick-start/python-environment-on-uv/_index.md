@@ -150,6 +150,9 @@ uv sync
 uv add torch
 ```
 
+> [!TIP]
+> 注意现在 PyPI 源提供的是 CUDA 13 版本，目前超算并不支持。
+
 ### 使用特定源安装但不在 `pyproject.toml` 指定（不建议）
 
 一般来说，直接从默认源安装 PyTorch 完全够用。但是，如果必须需要一个特定版本的 PyTorch ，例如原本是 `pip install torch --index-url https://mirrors.nju.edu.cn/pytorch/whl/cpu` ，那么问题就变得复杂了。

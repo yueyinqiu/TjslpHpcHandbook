@@ -23,6 +23,23 @@ bash ./Miniconda3-latest-Linux-x86_64.sh
 conda init
 ```
 
-## 第二步 完成
+## 第二步 配置镜像源
+
+在 `~/.condarc` 写入：
+
+```yaml
+channels:
+    - defaults
+show_channel_urls: true
+default_channels:
+    - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
+    - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
+custom_channels:
+    conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+    pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+```
+
+## 第三步 完成
 
 正常使用 `conda` 即可。
