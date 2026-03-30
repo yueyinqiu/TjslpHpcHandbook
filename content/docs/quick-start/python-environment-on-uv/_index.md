@@ -28,7 +28,7 @@ UV_INSTALLER_GITHUB_BASE_URL=https://gh-proxy.org/https://github.com/ curl -LsSf
 
 ## 第二步 配置环境变量
 
-建议在 `.bashrc` 中配置以下环境变量：
+建议在 `~/.bashrc` 中配置以下环境变量：
 
 ```sh
 # ===== uv =====
@@ -149,6 +149,9 @@ uv sync
 ```sh
 uv add torch
 ```
+
+> [!TIP]
+> 注意现在 PyPI 源提供的是 CUDA 13 版本，目前超算并不支持。
 
 ### 使用特定源安装但不在 `pyproject.toml` 指定（不建议）
 

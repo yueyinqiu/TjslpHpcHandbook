@@ -1,6 +1,6 @@
 ---
 weight: 1000
-bookCollapseSection: true
+bookCollapseSection: false
 
 title: "快速开始"
 ---
