@@ -27,6 +27,9 @@ VS Code 目前仍然是远程开发的最佳选择。
 
 ## 在超算平台最优的 Python 开发体验
 
+> [!TIP]
+> 下述过程对应的源码已上传到 [https://github.com/yueyinqiu/TjslpHpcHandbook-VsCodeSample.git](https://github.com/yueyinqiu/TjslpHpcHandbook-VsCodeSample.git) 。
+
 ### 第一步 创建项目
 
 使用 `uv` 的 `--lib` 模板创建一个项目：
