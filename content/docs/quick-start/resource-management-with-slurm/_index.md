@@ -173,10 +173,14 @@ for epoch in range(2):
 
 #SBATCH --job-name=slurm-test
 #SBATCH --partition=L40
+
+#SBATCH --gres=gpu:l40:1
+
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=1
-#SBATCH --gpus-per-task=gpu:l40:1
+#SBATCH --gpus-per-task=l40:1
+#SBATCH --cpus-per-task=7
+
 #SBATCH --output=%j_%x.out
 #SBATCH --error=%j_%x.err
 
