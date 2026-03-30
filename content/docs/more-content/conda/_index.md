@@ -1,5 +1,5 @@
 ---
-weight: 1000
+weight: 3000
 title: "Conda"
 ---
 

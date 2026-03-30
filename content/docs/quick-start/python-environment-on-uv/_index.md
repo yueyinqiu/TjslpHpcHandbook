@@ -28,7 +28,7 @@ UV_INSTALLER_GITHUB_BASE_URL=https://gh-proxy.org/https://github.com/ curl -LsSf
 
 ## 第二步 配置环境变量
 
-建议在 `.bashrc` 中配置以下环境变量：
+建议在 `~/.bashrc` 中配置以下环境变量：
 
 ```sh
 # ===== uv =====
