@@ -5,12 +5,12 @@ title: "VS Code"
 
 # VS Code
 
-VS Code 目前仍然是远程开发的最佳选择。
+VS Code 目前是远程开发的最佳选择。要在超算平台上获得良好的开发体验， VS Code 值得一试。
 
 ## 使用 Remote - SSH 扩展连接到超算平台
 
 > [!CAUTION]
-> 请确保已参考[《创建隔离空间》](./../create-isolation-space/)完成隔离空间的创建。
+> 在继续之前，请确保已参考[《创建隔离空间》](./../create-isolation-space/)完成隔离空间的创建。不要和其他人混用 VS Code 服务器。
 
 首先确保已安装 VS Code 及 Remote - SSH 扩展。
 
@@ -470,6 +470,9 @@ finally
     }
 }
 ```
+
+> [!TIP]
+> 这里会使用 SSH 连接计算节点。为了在计算节点上也进入隔离空间，请确认已参考[《配置 SSH 代理》](./../../quick-start/configure-ssh-agent/)完成 SSH 代理转发配置。
 
 随后在 `.vscode/tasks.json` 添加一个新的 Task ：
 

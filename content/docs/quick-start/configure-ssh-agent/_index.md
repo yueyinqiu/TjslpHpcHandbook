@@ -1,11 +1,13 @@
 ---
-weight: 5000
-title: "基于 GitHub 的版本管理"
+weight: 2000
+title: "配置 SSH 代理"
 ---
 
-# 基于 GitHub 的版本管理
+# 配置 SSH 代理
 
-为了更好地管理代码、进行协作，我们不可避免要使用 GitHub 。一般来说，我们倾向于使用 SSH 访问 GitHub 仓库。不过，由于隔离空间和 SSH 的不兼容，这里将介绍如何使用 SSH 代理转发，而无需在超算平台生成新的密钥。
+为了能够在登录节点继续使用本地 SSH 密钥进一步访问其他设备（例如，使自己在访问超算平台的其他节点时，能够同样进入隔离空间），我们必须配置 SSH 代理转发。
+
+由于 GitHub 具有直观的登录成功与否的验证方式，这里将以 GitHub 作为案例。
 
 ## 第一步 本地使用 SSH 访问 GitHub
 
@@ -19,18 +21,15 @@ title: "基于 GitHub 的版本管理"
 - `Key Type` ：选择 `Authorization Key` ；
 - `Key` ：填入[《创建隔离空间》](./../create-isolation-space/)一章中生成的 SSH 密钥。
 
-> [!TIP]
-> 也可以另外生成一个密钥填入 `Key` ，但是这样可能无法使用 `AddKeysToAgent` 配置。
-
 配置完成后，应当可以在本地使用以下命令访问 GitHub ，并看到自己的用户名：
 
 ```sh
 ssh -T git@github.com
 ```
 
-## 第二步 配置 SSH 代理转发
+## 第二步 开启 SSH 代理服务
 
-接下来我们要通过 SSH 代理转发，使远端服务器也可使用本地密钥访问 GitHub 。
+首先我们要在本地开启 SSH 代理服务，这样超算平台才能访问它并使用它提供的密钥。
 
 在 Windows 上，默认是不开启 SSH 代理服务的，需要先开启该服务。在具有管理员权限的 PowerShell 中运行：
 
@@ -48,6 +47,8 @@ eval "$(ssh-agent -s)"
 > [!TIP]
 > 使用 `ssh-add -l` 可以检测 SSH 代理服务是否打开并正常运行。（提示 `Could not open a connection` 说明服务未开启，而提示 `The agent has no identities` 说明服务是开启的，只是还没有添加密钥。）
 
+## 第三步 开启 SSH 代理转发
+
 接下来，我们修改 SSH 配置文件，为超算平台添加 `ForwardAgent` 和 `AddKeysToAgent` 配置，例如：
 
 ```text {hl_lines=["5-6"]}
@@ -59,8 +60,7 @@ Host hpc-u13070
     AddKeysToAgent yes
 ```
 
-> [!TIP]
-> 如果打算为超算平台和 GitHub 使用不同的密钥，那么 `AddKeysToAgent` 可能不起效果，需要手动调用 `ssh-add` 添加密钥。
+其中 `ForwardAgent yes` 意思是开启代理转发功能。而 `AddKeysToAgent` 表示把连接超算平台时使用的密钥自动添加到代理服务中：如果超算平台和 GitHub 使用同一个密钥，就不需要再另外配置了；如果使用不同密钥，需要在本地使用 `ssh-add` 添加 GitHub 的密钥。
 
 ## 第三步 在超算平台上访问 GitHub
 
@@ -97,39 +97,22 @@ ssh -T git@github.com
 git clone git@github.com:yueyinqiu/TjslpHpcHandbook.git
 ```
 
-应当可以成功把仓库克隆到本地。
+应当可以成功克隆。
 
-## 第五步 配置用户名和邮箱
-
-> [!CAUTION]
-> 请确保已参考[《创建隔离空间》](./../create-isolation-space/)完成隔离空间的创建。用户名和邮箱当然仅应该为自己配置。
-
-在 git 中创建 commit 时，需要给定用户名和邮箱。可以使用以下指令进行全局配置：
-
-```sh
-git config --global user.name "<用户名>"
-git config --global user.email "<邮箱>"
-```
-
-## 第六步 尝试提交修改
-
-现在可以对刚刚克隆的仓库做一些修改。
-
-然后使用：
-
-```sh
-git add .
-git commit -m "modified blahblah"
-git push
-```
+## 第五步 尝试切换节点
 
 > [!TIP]
-> 当然，不一定要用命令行，例如可以使用 VS Code 的 Source Control 功能。
+> 在继续之前，请确保已参考[《创建隔离空间》](./../create-isolation-space/)完成隔离空间的创建。
 
-## 第七步 更多内容
+前面我们成功通过 SSH 代理转发，在超算平台直接使用本地密钥访问 GitHub 。现在，将进一步确认能否正常在超算平台上切换节点。
 
-可浏览以下文档以更好使用 git 和 GitHub ：
-- [git 官方文档](https://git-scm.com/docs)
-- [VS Code Source Control 文档](https://code.visualstudio.com/docs/sourcecontrol/overview)
-- [git 官方文档（中文）](https://git-scm.cn/docs)
-- [同济超算平台 git 相关知识文档](https://dev.tongji.edu.cn/hpc-doc/#/pages/basicKnowledge/git)
+在超算平台上执行下述命令，尝试再次连接自己：
+
+```sh
+ssh localhost -p 10022
+```
+
+它应当会使用 SSH 代理中的本地密钥，从而进入隔离空间。可使用 `echo ~` 进行确认。
+
+> [!TIP]
+> 在 `ssh localhost -p 10022` 连接自己后，在此处重新 `ssh localhost -p 10022` ，会发现它没有进入隔离空间。这是因为在第一次连接自己时没有进行 SSH 代理转发，改为 `ssh localhost -p 10022 -A` 即可。

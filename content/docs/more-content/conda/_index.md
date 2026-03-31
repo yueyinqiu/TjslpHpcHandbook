@@ -1,5 +1,5 @@
 ---
-weight: 3000
+weight: 4000
 title: "Conda"
 ---
 
@@ -13,7 +13,7 @@ title: "Conda"
 ## 第一步 安装 Miniconda
 
 > [!CAUTION]
-> 请确保已参考[《创建隔离空间》](./../create-isolation-space/)完成隔离空间的创建。
+> 在继续之前，请确保已参考[《创建隔离空间》](./../create-isolation-space/)完成隔离空间的创建。不要为其他人安装。
 
 选择一个合适的目录，执行：
 
