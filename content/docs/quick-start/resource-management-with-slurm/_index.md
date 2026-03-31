@@ -1,5 +1,5 @@
 ---
-weight: 6000
+weight: 5000
 title: "基于 Slurm 的资源管理"
 ---
 

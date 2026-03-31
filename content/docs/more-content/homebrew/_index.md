@@ -1,16 +1,16 @@
 ---
 weight: 3000
-title: "基于 Homebrew 的包管理"
+title: "Homebrew"
 ---
 
-# 基于 Homebrew 的包管理
+# Homebrew
 
-大多数包管理器都需要 root 权限，在超算平台上无法使用。虽然官方明确不给予支持，但 Homebrew 确实能够在完全无 root 的情况下使用。同时，作为 macOS 最流行的包管理器， Homebrew 的生态足够丰富。因此，如有需要，建议使用 Homebrew 作为包管理器。
+大多数包管理器都需要 root 权限，在超算平台上无法使用。虽然官方明确不给予支持，但 Homebrew 确实能够在完全无 root 的情况下使用。
 
 ## 第一步 下载 Homebrew
 
 > [!CAUTION]
-> 请确保已参考[《创建隔离空间》](./../create-isolation-space/)完成隔离空间的创建。
+> 在继续之前，请确保已参考[《创建隔离空间》](./../create-isolation-space/)完成隔离空间的创建。不要为其他人安装。
 
 ```sh
 git clone --depth 1 https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git ~/.homebrew
