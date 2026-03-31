@@ -25,7 +25,7 @@ VS Code 目前仍然是远程开发的最佳选择。
 - Markdown All in One ：用以编辑 Markdown 文件；
 - C# ：用以 C# 开发。
 
-## 获取最优的 Python 开发体验
+## 获取最佳的 Python 开发体验
 
 > [!TIP]
 > 下述过程对应的源码已上传到 [https://github.com/yueyinqiu/TjslpHpcHandbook-VsCodeSample.git](https://github.com/yueyinqiu/TjslpHpcHandbook-VsCodeSample.git) 。
