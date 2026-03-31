@@ -9,7 +9,7 @@ C# 是一个相当现代化的语言。在 .NET 10 中，发布了 `dotnet run s
 
 [《创建隔离空间》](./../../quick-start/create-isolation-space/)中的脚本就是使用 C# 编写。在本网站的其他位置，也出现 C# 编写的脚本。为了避免无法运行它们，这里详细列出 .NET 的安装流程。
 
-## 安装 .NET
+## 第一步 安装 .NET
 
 > [!CAUTION]
 > 请确保已参考[《创建隔离空间》](./../create-isolation-space/)完成隔离空间的创建。
