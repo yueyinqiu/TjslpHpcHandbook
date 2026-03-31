@@ -201,7 +201,7 @@ explicit = true    # 除非指定，否则不使用该源
 # 配置包的源
 [tool.uv.sources]
 torch = [
-    { index = "pytorch-cpu" }    # 指定需要从 pytorch-cu126 源安装 torch 
+    { index = "pytorch-cpu" }    # 指定需要从 pytorch-cpu 源安装 torch 
 ]
 ```
 
