@@ -126,7 +126,7 @@ git push
 > [!TIP]
 > 当然，不一定要用命令行，例如可以使用 VS Code 的 Source Control 功能。
 
-## 第七步 更进一步
+## 第七步 更多内容
 
 可浏览以下文档以更好使用 git 和 GitHub ：
 - [git 官方文档](https://git-scm.com/docs)

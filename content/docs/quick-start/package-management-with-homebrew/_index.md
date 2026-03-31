@@ -58,7 +58,7 @@ brew install hugo
 hugo help
 ```
 
-## 第六步 更进一步
+## 第六步 更多内容
 
 无 root 使用是明确不受 Homebrew 官方支持的：很多包可能不得不从源码编译，而由于环境的复杂性，未必总能成功；同时， Homebrew 也不保证网络接口的稳定，因此镜像源未必稳定。如果遇到问题，可以进一步查阅：
 - [Homebrew 官方文档](https://docs.brew.sh/)
