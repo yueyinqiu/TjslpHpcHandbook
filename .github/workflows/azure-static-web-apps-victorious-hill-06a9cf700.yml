@@ -4,10 +4,10 @@ on:
   push:
     branches:
       - azure
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - azure
+#   pull_request:
+#     types: [opened, synchronize, reopened, closed]
+#     branches:
+#       - azure
 
 jobs:
   build_and_deploy_job:
