@@ -28,7 +28,7 @@ VS Code 目前仍然是远程开发的最佳选择。
 ## 获取最佳的 Python 开发体验
 
 > [!TIP]
-> 下述过程对应的源码已上传到 [https://github.com/yueyinqiu/TjslpHpcHandbook-VsCodeSample.git](https://github.com/yueyinqiu/TjslpHpcHandbook-VsCodeSample.git) 。
+> 下述过程对应的源码已上传到 [https://github.com/yueyinqiu/TjslpHpcHandbook-VsCodeSample.git](https://github.com/yueyinqiu/TjslpHpcHandbook-VsCodeSample.git) 。但其中部分配置可能需要手动完成，例如软连接当按需创建、具体申请的资源当按需配置、需要忽略 `/.vscode/` 目录（为了保证完整性该仓库中没有忽略）等。
 
 ### 第一步 创建项目
 
@@ -40,7 +40,7 @@ cd sample-project
 uv sync
 ```
 
-创建 `sample-project.workspace` 文件：
+创建 `sample-project.code-workspace` 文件：
 
 ```json
 {
@@ -96,7 +96,7 @@ def hello() -> str:
             f"nvidia-smi: {shutil.which("nvidia-smi")}")
 ```
 
-可以尝试运行，确认是否配置正确：
+展开菜单栏的 Terminal ，点击 New Terminal 打开终端。在终端中运行以下命令，确认脚本是否正确：
 
 ```sh
 uv run src/exe/main.py
@@ -297,7 +297,7 @@ nvidia-smi: /usr/bin/nvidia-smi
 uv add debugpy --dev
 ```
 
-接着，添加 `.vscode/slurm/slurm_submit.cs` ，这个脚本参考[超算平台文档](https://dev.tongji.edu.cn/hpc-doc/#/pages/software/vscode?id=%e8%ae%a1%e7%ae%97%e8%8a%82%e7%82%b9-1)写就，使用 `salloc` 分配资源，自动生成 `launch.json` ，并使用 SSH 连接到计算节点启动调试器：
+接着，添加 `.vscode/slurm/slurm_submit_debug.cs` ，这个脚本参考[超算平台文档](https://dev.tongji.edu.cn/hpc-doc/#/pages/software/vscode?id=%e8%ae%a1%e7%ae%97%e8%8a%82%e7%82%b9-1)写就，使用 `salloc` 分配资源，自动生成 `launch.json` ，并使用 SSH 连接到计算节点启动调试器：
 
 ```csharp
 #:package YueYinqiu.Su.DotnetRunFileUtilities@0.0.3
@@ -511,7 +511,9 @@ finally
 }
 ```
 
-完成后，把 VS Code 当前文件切换到 `src/exe/main.py` 。展开菜单栏的 Terminal ，点击 Run Task ，点击 `DEBUG Intel (x1): Current File` 选项。
+完成后，把 VS Code 当前文件切换到 `src/exe/main.py` 。选中 `print(output)` 一行，展开菜单栏 Run ，点击 Toggle Breakpoint 以设置断点。
+
+然后，展开菜单栏的 Terminal ，点击 Run Task ，点击 `DEBUG Intel (x1): Current File` 选项。
 
 此时应当看到类似这样的内容：
 
@@ -533,7 +535,13 @@ salloc: Nodes cpui138 are ready for job
 =================================
 ```
 
-此时在 VS Code 中展开菜单栏 Run ，点击 Start Debugging ，即可开始附加到该调试器进行调试。
+此时在 VS Code 中展开菜单栏 Run ，点击 Start Debugging ，即可开始附加到该调试器进行调试。它将会在先前设置的断点处暂停。
 
 > [!CAUTION]
 > 正常退出时，作业会自动关闭。如果过程中出现异常， `.vscode/slurm/slurm_submit.cs` 会试图执行 `scancel` 以结束作业。但是，在部分情况下可能会失败，最好再手动检查一次。
+
+> [!WARNING]
+> 当看到 `salloc: Nodes cpui138 are ready for job` 时就已经开始收费，请尽快完成调试。
+
+> [!TIP]
+> 有时在点击 Start Debugging 后会看到 Connection refused 等提示，此时重新点击 Start Debugging 即可。
