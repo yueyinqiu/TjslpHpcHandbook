@@ -105,6 +105,13 @@ git clone git@github.com:yueyinqiu/TjslpHpcHandbook.git
 
 应当可以成功克隆。
 
+> [!TIP]
+> 这里不对 git 作进一步介绍。如有需要，推荐查阅以下文档：
+> - [git 官方文档](https://git-scm.com/docs)
+> - [VS Code Source Control 文档](https://code.visualstudio.com/docs/sourcecontrol/overview)
+> - [git 官方文档（中文）](https://git-scm.cn/docs)
+> - [同济超算平台 git 相关知识文档](https://dev.tongji.edu.cn/hpc-doc/#/pages/basicKnowledge/git)
+
 ## 第五步 尝试切换节点
 
 > [!TIP]
