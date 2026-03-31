@@ -472,7 +472,7 @@ finally
 ```
 
 > [!TIP]
-> 这里会使用 SSH 连接计算节点。为了在计算节点上也进入隔离空间，请确认已参考[《配置 SSH 代理》](./../../quick-start/configure-ssh-agent/)完成 SSH 代理转发配置。
+> 这里会使用 SSH 连接计算节点。为了在计算节点上也进入隔离空间，请确认已参考[《配置 SSH Agent 》](./../../quick-start/configure-ssh-agent/)完成 SSH Agent 转发配置。
 
 随后在 `.vscode/tasks.json` 添加一个新的 Task ：
 
