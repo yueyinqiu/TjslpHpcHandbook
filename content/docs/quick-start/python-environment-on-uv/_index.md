@@ -210,3 +210,9 @@ torch = [
 ### 更多方式
 
 上述方案一般已经足够。不过，还有一些更复杂的情况，例如希望在两个不同的设备上开发，并且它们具有不同 CUDA 版本。这种情况可以通过可选依赖解决，具体可参考[ uv 官方文档](https://docs.astral.sh/uv/guides/integration/pytorch/#configuring-accelerators-with-optional-dependencies)。
+
+## 第八步 更多内容
+
+更多内容可参考：
+- [本站《 VS Code 》](./../../more-content/vs-code/)
+- [uv 官方文档](https://docs.astral.sh/uv/)
