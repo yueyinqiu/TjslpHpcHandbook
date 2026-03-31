@@ -124,6 +124,20 @@ Host hpc-u13070
 
 好在，在远端服务器配置自己的个人密钥本就是不建议的。如果要访问 GitHub 等服务，应当使用 SSH 代理转发，详见[《基于 GitHub 的版本管理》](./../version-control-with-github/)。
 
+### tmux 不兼容
+
+tmux 默认连接 `/tmp/tmux-<UID>/default` 处的服务，这会导致所有人进入同一个服务。同时，服务启动时会继承现有的环境变量，导致隔离被破坏。
+
+不过这个很容易解决，只需要将 `TMUX_TEMDIR` 配置到隔离空间中即可。例如，在 `.bashrc` 中添加：
+
+```sh
+# ===== tmux =====
+# https://tjslp-hpc.yueyinqiu.top/docs/quick-start/create-isolation-space/#tmux-%e4%b8%8d%e5%85%bc%e5%ae%b9
+export TMUX_TMPDIR="$HOME/.tmux/tmp"
+mkdir -p "$TMUX_TMPDIR"
+# ===== tmux =====
+```
+
 ## 切换其他设备
 
 如果要在其他设备使用同一个隔离环境，一般建议先按[《第一步 生成 SSH 密钥》](#第一步-生成-ssh-密钥)重新生成一个密钥。
