@@ -105,9 +105,8 @@ else
         """);
     await File.WriteAllTextAsync(Path.Join(space, ".bash_profile"), 
         """
-        # .bash_profile
+        # ~/.bash_profile
 
-        # Get the aliases and functions
         if [ -f ~/.bashrc ]; then
             . ~/.bashrc
         fi
@@ -116,25 +115,26 @@ else
         """);
     await File.WriteAllTextAsync(Path.Join(space, ".bashrc"), 
         $"""
-        # .bashrc
+        # ~/.bashrc
 
-        # Source global definitions
         if [ -f /etc/bashrc ]; then
             . /etc/bashrc
         fi
 
-        # User specific environment
         if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
         then
             PATH="$HOME/.local/bin:$HOME/bin:$PATH"
         fi
         export PATH
 
-        # Uncomment the following line if you don't like systemctl's auto-paging feature:
-        # export SYSTEMD_PAGER=
-
         # User specific aliases and functions
         export HOME_ORIGINAL="{home}"
+
+        # ===== tmux =====
+        # https://tjslp-hpc.yueyinqiu.top/docs/quick-start/create-isolation-space/#tmux-%e4%b8%8d%e5%85%bc%e5%ae%b9
+        export TMUX_TMPDIR="$HOME/.tmux/tmp"
+        mkdir -p "$TMUX_TMPDIR"
+        # ===== tmux =====
 
         echo "欢迎！如果看到了这条消息，说明已成功配置隔离空间！（可以在 ~/.bashrc 中移除这条提示）"
         """);
