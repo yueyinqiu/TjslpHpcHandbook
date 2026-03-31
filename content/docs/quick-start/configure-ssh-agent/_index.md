@@ -78,7 +78,7 @@ Host hpc-u13070
 
 其中 `ForwardAgent yes` 表示：开启 SSH Agent 转发功能，允许超算平台调用本地的 SSH Agent 服务，从而使用本地的密钥。
 
-而 `AddKeysToAgent` 表示：在连接超算平台时，把使用的密钥自动添加到 SSH Agent 中。这样一来，如果超算平台和 GitHub 使用同一个密钥，就不需要再另外配置了。而如果它们如果使用不同密钥，还需要在本地使用 `ssh-add` ，为 SSH Agent 服务添加 GitHub 的密钥，才能在超算平台使用它。
+而 `AddKeysToAgent yes` 表示：在连接超算平台时，把使用的密钥自动添加到 SSH Agent 中。这样一来，如果超算平台和 GitHub 使用同一个密钥，就不需要再另外配置了。而如果它们使用不同密钥，需要在本地使用 `ssh-add` 为 SSH Agent 服务添加 GitHub 的密钥，才能在超算平台使用它。
 
 ## 第三步 在超算平台上访问 GitHub
 
@@ -113,9 +113,6 @@ git clone git@github.com:yueyinqiu/TjslpHpcHandbook.git
 > - [同济超算平台 git 相关知识文档](https://dev.tongji.edu.cn/hpc-doc/#/pages/basicKnowledge/git)
 
 ## 第五步 尝试切换节点
-
-> [!TIP]
-> 在继续之前，请确保已参考[《创建隔离空间》](./../create-isolation-space/)完成隔离空间的创建。
 
 前面我们成功通过 SSH Agent 转发，在超算平台直接使用本地密钥访问 GitHub 。现在，将进一步确认能否正常在超算平台上切换节点。
 
