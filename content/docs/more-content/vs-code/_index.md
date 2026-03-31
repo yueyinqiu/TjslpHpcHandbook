@@ -16,7 +16,7 @@ VS Code 目前仍然是远程开发的最佳选择。
 
 在 VS Code 侧边栏找到 Remote Explorer 。
 
-如果已经根据[《创建隔离空间》](./../../quick-start/create-isolation-space/)在 SSH 配置文件添加了超算平台，那么这里直接就会显示相应的条目。点击右侧箭头或者窗口图标即可连接。
+如果已经根据[《创建隔离空间》](./../../quick-start/create-isolation-space/)在 SSH 配置文件添加了超算平台，这里会显示有相应的条目。点击右侧箭头或者窗口图标即可连接。
 
 成功连接后，在远端安装所需的扩展，这里推荐：
 - Python ：用以 Python 开发；
@@ -25,7 +25,7 @@ VS Code 目前仍然是远程开发的最佳选择。
 - Markdown All in One ：用以编辑 Markdown 文件；
 - C# ：用以 C# 开发。
 
-## 在超算平台最优的 Python 开发体验
+## 获取最佳的 Python 开发体验
 
 > [!TIP]
 > 下述过程对应的源码已上传到 [https://github.com/yueyinqiu/TjslpHpcHandbook-VsCodeSample.git](https://github.com/yueyinqiu/TjslpHpcHandbook-VsCodeSample.git) 。
@@ -84,7 +84,7 @@ output = sample_project.hello()
 print(output)
 ```
 
-把 `src/sample_project/__init__.py` 修改为：
+把 `src/sample_project/__init__.py` 修改为以下内容，以便测试：
 
 ```python
 def hello() -> str:
@@ -96,7 +96,7 @@ def hello() -> str:
             f"nvidia-smi: {shutil.which("nvidia-smi")}")
 ```
 
-可以尝试运行一下，确认是否配置正确：
+可以尝试运行，确认是否配置正确：
 
 ```sh
 uv run src/exe/main.py
@@ -110,9 +110,9 @@ nvcc: None
 nvidia-smi: None
 ```
 
-### 第三步 使用软连接连接到输入输出文件夹
+### 第三步 软连接输入输出目录
 
-有一件需要注意的事情是，在超算平台上操作文件，特别是操作大量小文件，速度是很慢的。平台在 `/ssdfs` 提供了空间相对较小，但速度更快一些的高速储存。在训练模型时，如果需要频繁加载小文件，应当把它们先复制到这个高速储存中。
+有一件事情需要注意：在超算平台上操作文件，特别是文件数量较多的时候，速度是很慢的。为了缓解此问题，平台在 `/ssdfs` 提供了空间相对较小，但速度更快一些的高速储存。在训练模型时，如果需要频繁读写文件，应当把它们先复制到这个高速储存中。
 
 > [!WARNING]
 > 高速缓存的价格高很多。在使用完毕后应当及时把文件移除。
@@ -120,7 +120,7 @@ nvidia-smi: None
 > [!TIP]
 > 在[《创建隔离空间》](./../../quick-start/create-isolation-space/)中，脚本会自动创建 `~/ssdfs` 软连接到该高速储存。因此使用时直接访问 `~/ssdfs` 即可。
 
-为了在程序中避免硬编码路径，以及能够方便地在 VS Code 中浏览高速储存中的输入输出文件，我们最好在项目中专门维护一套软连接。
+为了避免在程序中硬编码路径，以及方便在 VS Code 中浏览文件，最好在项目中另外维护一套软连接。
 
 首先创建 `links` 文件夹以及 `links/.gitignore` 文件：
 
@@ -142,7 +142,7 @@ mkdir ~/ssdfs/outputs-of-sample-project
 ln -s ~/ssdfs/outputs-of-sample-project links/outputs
 ```
 
-注意，如果其中文件数量很多，应当使 VS Code 的 File Watcher 忽略该目录，否则会耗尽系统资源：
+注意，如果其中文件数量很多，应当配置 VS Code 的 File Watcher 忽略该目录，否则会耗尽系统的文件监听资源：
 
 ```json {hl_lines=["2-10"]}
 {
@@ -165,7 +165,7 @@ ln -s ~/ssdfs/outputs-of-sample-project links/outputs
 
 ### 第四步 使用 Task 功能提交 Slurm 作业
 
-首先创建 `.vscode/slurm/slurm_submit.cs` ：
+首先创建 `.vscode/slurm/slurm_submit.cs` ，它会生成脚本并调用 `sbatch` 提交作业：
 
 ```csharp
 #:package YueYinqiu.Su.DotnetRunFileUtilities@0.0.3
@@ -236,7 +236,10 @@ var command = Cli.Wrap("sbatch").WithArguments(arguments
 await (command | (Console.WriteLine, Console.Error.WriteLine)).ExecuteAsync();
 ```
 
-然后创建 `.vscode/tasks.json` ：
+> [!TIP]
+> 执行该脚本需要 .NET 10 或更高版本，可参考[《 .NET 》](./../dnet/)进行安装。
+
+然后创建 `.vscode/tasks.json` ，为上述脚本配置不同的参数：
 
 ```json
 {
@@ -288,13 +291,13 @@ nvidia-smi: /usr/bin/nvidia-smi
 
 由于 VS Code 一般在登录节点使用，而程序是在计算节点运行，因此调试变得较为复杂。我们需要在计算节点启动调试器，然后在登录节点附加到它。
 
-首先安装 `debugpy` ：
+首先安装 `debugpy` ，以便在计算节点启动调试器：
 
 ```sh
 uv add debugpy --dev
 ```
 
-接着，添加 `.vscode/slurm/slurm_submit.cs` ：
+接着，添加 `.vscode/slurm/slurm_submit.cs` ，这个脚本参考[超算平台文档](https://dev.tongji.edu.cn/hpc-doc/#/pages/software/vscode?id=%e8%ae%a1%e7%ae%97%e8%8a%82%e7%82%b9-1)写就，使用 `salloc` 分配资源，自动生成 `launch.json` ，并使用 SSH 连接到计算节点启动调试器：
 
 ```csharp
 #:package YueYinqiu.Su.DotnetRunFileUtilities@0.0.3
@@ -530,7 +533,7 @@ salloc: Nodes cpui138 are ready for job
 =================================
 ```
 
-此时在 VS Code 中按下 F5 ，即可开始调试。
+此时在 VS Code 中展开菜单栏 Run ，点击 Start Debugging ，即可开始附加到该调试器进行调试。
 
 > [!CAUTION]
 > 正常退出时，作业会自动关闭。如果过程中出现异常， `.vscode/slurm/slurm_submit.cs` 会试图执行 `scancel` 以结束作业。但是，在部分情况下可能会失败，最好再手动检查一次。

@@ -216,6 +216,6 @@ Epoch 1, Loss: 1.3896
 ## 第六步 更多内容
 
 更多内容可参考：
-- [《VS Code》](./../../more-content/vs-code/)
+- [本站《 VS Code 》](./../../more-content/vs-code/)
 - [同济超算平台快速入门](https://dev.tongji.edu.cn/hpc-doc/#/pages/quickStart/concept)
 - [Slurm 官方文档](https://slurm.schedmd.com/)
