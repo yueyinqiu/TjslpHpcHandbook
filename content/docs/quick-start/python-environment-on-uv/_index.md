@@ -45,16 +45,6 @@ export UV_DEFAULT_INDEX="https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
 # ===== uv =====
 ```
 
-> [!CAUTION]
-> 不要试图修改虚拟环境中某个第三方包的代码。
-> 
-> 1. uv 的缓存功能默认使用硬链接，这可能导致所有人的文件都被修改；
-> 2. 在下次更新或同步时，修改可能被抹除。
->
-> 如果确实需要修改第三方包，应当从源代码安装它，或者使用 Monkey Patch 。
-> 
-> 如果担心有其他人这么做，可以随时使用 `uv sync` 或者 `uv sync --reinstall` 恢复。
-
 完成后，启动一个新的 `bash` 令上述配置生效。
 
 ## 第三步 创建测试项目
