@@ -23,9 +23,6 @@ export http_proxy="http://user:password@logini01:35263/"
 export https_proxy="http://user:password@logini01:35263/"
 export HTTP_PROXY="http://user:password@logini01:35263/"
 export HTTPS_PROXY="http://user:password@logini01:35263/"
-
-export no_proxy="localhost,127.0.0.1"
-export NO_PROXY="localhost,127.0.0.1"
 # ===== proxy =====
 ```
 
