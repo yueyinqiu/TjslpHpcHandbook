@@ -133,7 +133,7 @@ tmux 默认连接 `/tmp/tmux-<UID>/default` 处的服务，这会导致所有人
 ```sh
 # ===== tmux =====
 # https://tjslp-hpc.yueyinqiu.top/docs/quick-start/create-isolation-space/#tmux-%e4%b8%8d%e5%85%bc%e5%ae%b9
-export TMUX_TMPDIR="$HOME/.tmux/tmp"
+export TMUX_TMPDIR="$HOME/.tmux/tmp/$(hostname)"    # 需要加一个 hostname 区分不同节点
 mkdir -p "$TMUX_TMPDIR"
 # ===== tmux =====
 ```
