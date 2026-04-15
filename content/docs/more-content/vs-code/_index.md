@@ -120,9 +120,7 @@ nvidia-smi: None
 > [!TIP]
 > 在[《创建隔离空间》](./../../quick-start/create-isolation-space/)中，脚本会自动创建 `~/ssdfs` 软连接到该高速储存。因此使用时直接访问 `~/ssdfs` 即可。
 
-为了避免在程序中硬编码路径，以及方便在 VS Code 中浏览文件，最好在项目中另外维护一套软连接。
-
-首先创建 `links` 文件夹以及 `links/.gitignore` 文件：
+为了方便在 VS Code 中浏览文件，最好在项目中另外维护一套软连接。首先创建 `links` 文件夹以及 `links/.gitignore` 文件：
 
 ```text
 *
@@ -140,27 +138,6 @@ mkdir ~/ssdfs/outputs-of-sample-project
 
 ```sh
 ln -s ~/ssdfs/outputs-of-sample-project links/outputs
-```
-
-注意，如果其中文件数量很多，应当配置 VS Code 的 File Watcher 忽略该目录，否则会耗尽系统的文件监听资源：
-
-```json {hl_lines=["2-10"]}
-{
-	"settings": {
-		"files.watcherExclude": {
-			"**/.git/objects/**": true,
-			"**/.git/subtree-cache/**": true,
-			"**/.hg/store/**": true,
-			"links": true,
-            ".vscode/slurm": true
-		}
-	},
-	"folders": [
-		{
-			"path": "."
-		}
-	]
-}
 ```
 
 ### 第四步 使用 Task 功能提交 Slurm 作业
