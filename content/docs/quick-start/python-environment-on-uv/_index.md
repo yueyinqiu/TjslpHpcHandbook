@@ -5,7 +5,7 @@ title: "基于 uv 的 Python 环境"
 
 # 基于 uv 的 Python 环境
 
-uv 现在已成为现代化 Python 开发的事实标准，统一了 Python 版本管理、包管理、项目管理等功能。可能更为人所知的是 Anaconda ，但目前已几乎没有理由继续使用它：如果没有复杂的 C/C++ 依赖需要处理，建议切换到 uv ；如果有，建议切换到 Pixi 。这里我们先介绍 uv 。
+uv 现在已成为现代化 Python 开发的事实标准，统一了 Python 版本管理、包管理、项目管理等功能。可能更为人所知的是 Anaconda ，但目前已几乎没有理由继续使用它：如果没有复杂的 C/C++ 依赖需要处理，建议切换到 uv ；如果有，建议切换到 [Pixi](./../../more-content/pixi/) 。这里我们先介绍 uv 。
 
 除了它足够现代化之外，在这里推荐 uv 还有一些其他原因：
 
@@ -206,3 +206,4 @@ torch = [
 更多内容可参考：
 - [本站《 VS Code 》](./../../more-content/vs-code/)
 - [uv 官方文档](https://docs.astral.sh/uv/)
+- [本站《 Pixi 》](./../../more-content/pixi/)

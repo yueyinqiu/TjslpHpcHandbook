@@ -6,7 +6,7 @@ title: "Conda"
 # Conda
 
 > [!TIP]
-> 建议使用 uv 或者 Pixi 而不是 `conda` 。详见[《基于 uv 的 Python 环境》](./../../quick-start/python-environment-on-uv/)。
+> 一般来说没有理由使用 Conda ，它可以几乎完全被 Pixi 代替。其中如果不涉及复杂的 C/C++ 依赖，那么更建议使用 uv 。详见[《基于 uv 的 Python 环境》](./../../quick-start/python-environment-on-uv/)或[《 Pixi 》](./../pixi/)。
 
 出于隔离性，建议自行安装 Miniconda ，而非使用超算平台提供的 `conda` 。
 

@@ -6,4 +6,4 @@ title: ""
 
 欢迎共同参与编辑、修正和更新！本站的开源仓库：[https://github.com/yueyinqiu/TjslpHpcHandbook.git](https://github.com/yueyinqiu/TjslpHpcHandbook.git)
 
-目录在左侧侧边栏。请务必跟随“快速开始”以得到一个良……勉强正常的使用体验。
+目录在左侧侧边栏。请务必跟随“必要准备”以得到一个良……勉强正常的使用体验。
