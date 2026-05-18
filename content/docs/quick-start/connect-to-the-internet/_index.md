@@ -5,7 +5,7 @@ title: "连接到互联网"
 
 # 连接到互联网
 
-超算平台的网络是白名单制。一个可能的解决的办法是，在另一台设备上部署一个代理服务，再通过 SSH 端口转发到超算平台，让超算平台的请求经过该代理服务，从而访问网络。
+超算平台的网络是白名单制。一个可能的解决的办法是，在另一台设备上部署一个代理服务，再通过 SSH 端口转发到超算平台，让超算平台的请求经过该代理服务，从而访问网络。为保证服务的稳定性，需同时建立多个通道，实际使用中自动进行测速找到最合适的通道。
 
 > [!WARNING]
 > 超算平台设置白名单肯定是有理由的。如果要大量使用，应当向平台申请开放特定网站。
@@ -59,10 +59,10 @@ ssh -R 43105 -o ExitOnForwardFailure=yes hpc-u13070-fixed-node
 
 ### 第一步 安装 sing-box
 
-> [!TIP]
-> 需要访问网络，因此需在第一项的基础上进行，要把 `SING_BOX_INSTALL_DOWNLOAD_PROXY` 配置为该代理。
-
 在超算平台执行：
+
+> [!TIP]
+> 这一步需要访问网络，因此需在第一项的基础上进行，并将 `SING_BOX_INSTALL_DOWNLOAD_PROXY` 配置为该代理。
 
 ```sh
 SING_BOX_INSTALL_DOWNLOAD_URL="https://gh-proxy.org/https://github.com/yueyinqiu/SingboxReleasesMirrorWithVersionStrippedFromFilenames/releases/latest/download/sing-box-linux-amd64.tar.gz"
@@ -95,7 +95,7 @@ export PATH="$HOME/.sing-box/bin:$PATH"
 
 在 `/share/home/u13070/data/shared/proxies` 下会包含一些共享的通道。
 
-找一些格式看起来正确的文件，例如 `/share/home/u13070/data/shared/proxies/sample.json` ：
+在里面选择一些格式正确的文件，例如 `/share/home/u13070/data/shared/proxies/sample.json` ：
 
 ```json
 {
@@ -113,13 +113,13 @@ export PATH="$HOME/.sing-box/bin:$PATH"
 ```
 
 > [!TIP]
-> 实际使用时不要选择这个配置，它只是 `direct` 或 `block` ，不能帮你越过白名单。
+> 实际使用时不要选择这个配置，它只是 `direct` 或 `block` ，不能越过白名单。这里是为了文档的稳定才使用它们。
 
 把它们复制到 `~/.sing-box/outbounds` 目录下，后续使用时可直接指定这个目录：
 
 ```sh
 mkdir ~/.sing-box/outbounds
-cp /share/home/u13070/data/shared/proxies/sample.json ~/.sing-box/outbounds/sample.json
+cp -L /share/home/u13070/data/shared/proxies/sample.json ~/.sing-box/outbounds/sample.json
 ```
 
 > [!TIP]
@@ -156,13 +156,13 @@ cp /share/home/u13070/data/shared/proxies/sample.json ~/.sing-box/outbounds/samp
 }
 ```
 
-它会自动选择延迟最低的 `outbounds` 作为最终通道。
+可以将先前筛选出来的通道写在 `final-out` 的 `outbounds` 中，它会自动选择其中延迟最低的作为最终通道。
 
 > [!WARNING]
 > 请务必设置一个足够强的用户名密码，否则其他人探测到这个端口也就可以使用你的服务。
 
 > [!TIP]
-> 实际使用时建议把百度替换为小红书 `https://www.xiaohongshu.com/` ，因为百度本身就在白名单内，不能分辨出通道的可用性。
+> 百度本身就在白名单内，不能分辨出通道的可用性。因此实际使用时建议把百度替换为其他网站，例如小红书 `https://www.xiaohongshu.com/` 。
 
 ### 第四步 手动运行代理
 
@@ -174,7 +174,7 @@ sing-box run -D ~/.sing-box/configurations/bypass-white-list -c config.json -C ~
 
 由于监听端口设置为 `0` ，它会自动随机选择，输出诸如 `inbound/mixed[0]: tcp server started at 127.0.0.1:35967` 的提示。
 
-保持它运行，在同一登录节点的另外一个终端中尝试：
+保持它处于运行状态，在同一登录节点的另外一个终端中尝试：
 
 ```sh
 curl -x socks5h://user:password@127.0.0.1:35967/ https://www.baidu.com/
@@ -243,7 +243,14 @@ source ~/.sing-box/configurations/bypass-white-list/bashrc.sh
 curl http://www.baidu.com/ -v
 ```
 
-它会提示 `Uses proxy env variable ...` 并使用该代理访问。如果筛选的通道合适，就可以通过它们访问互联网。
+它会提示 `Uses proxy env variable ...` 并使用该代理访问。
+
+如果筛选的通道合适，就可以通过它们访问互联网，尝试：
+
+```sh
+curl https://www.xiaohongshu.com/
+curl https://tools.yueyinqiu.top/
+```
 
 ## 第三项 提供新的通道
 
