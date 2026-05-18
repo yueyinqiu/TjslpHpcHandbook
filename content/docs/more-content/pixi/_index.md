@@ -15,7 +15,7 @@ Pixi 是一个现代化的通用包管理工具，已基本可以完全替代 Co
 执行下述指令即可安装 Pixi ：
 
 ```sh
-PIXI_DOWNLOAD_URL=https://gh-proxy.org/https://github.com/prefix-dev/pixi/releases/download/latest/pixi-x86_64-unknown-linux-musl.tar.gz curl -fsSL https://gh-proxy.org/https://github.com/prefix-dev/pixi/releases/download/v0.68.1/install.sh | sh
+PIXI_DOWNLOAD_URL=https://gh-proxy.org/https://github.com/prefix-dev/pixi/releases/latest/download/pixi-x86_64-unknown-linux-musl.tar.gz curl -fsSL https://gh-proxy.org/https://github.com/prefix-dev/pixi/releases/latest/download/install.sh | sh
 ```
 
 > [!TIP]
